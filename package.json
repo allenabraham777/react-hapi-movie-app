@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "movie-app",
+  "version": "1.0.0",
+  "description": "A react app to rate movies",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "client": "yarn workspace client start",
+    "server": "yarn workspace server dev",
+    "start": "concurrently \"yarn server\"  \"yarn client\""
+  },
+  "author": "Allen K Abraham",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
