@@ -19,11 +19,11 @@ exports.addMovie = (request, reply) => {
             title: movie.title,
             genere: movie.genere,
             rating: movie.rating,
-          })
+          }).code(200)
         )
-        .catch((err) => reply({ error: err.errors[0].message }).code(400));
+        .catch((err) => reply({ error: err.errors[0].message }).code(500));
     })
-    .catch((err) => reply({ error: "Unprocessable Entity" }).code(422));
+    .catch(() => reply({ error: "Internal Server Error" }).code(500));
 };
 
 // Controller - Get All Movie
@@ -32,10 +32,10 @@ exports.getAllMovies = (request, reply) => {
     attributes: ["id", "title", "genere", "rating"],
   })
     .then((movies) => {
-      reply(movies);
+      reply(movies).code(200);
     })
-    .catch((err) => {
-      reply({ error: "Error fetching all movies" });
+    .catch(() => {
+      reply({ error: "Error fetching all movies" }).code(500);
     });
 };
 
@@ -50,7 +50,9 @@ exports.getMovie = (request, reply) => {
       if (movie) return reply(movie).code(200);
       return reply({ error: "No Such Data" }).code(404);
     })
-    .catch((err) => reply({ error: "Unprocessable Entity" }).code(422));
+    .catch(() =>
+      reply({ error: "Error fetching the movie details" }).code(500)
+    );
 };
 
 // Controller - Update a Movie
@@ -66,7 +68,7 @@ exports.updateMovie = async (request, reply) => {
       .then((response) => {
         if (!response) return reply({ error: "No Such Genere" }).code(404);
       })
-      .catch((err) => reply({ error: "Unprocessable Entity" }).code(422));
+      .catch(() => reply({ error: "Internal Server Error" }).code(500));
   }
 
   try {
@@ -78,10 +80,10 @@ exports.updateMovie = async (request, reply) => {
     if (updatedMovie[0]) {
       reply({ message: "Movie update successful" });
     } else {
-      reply({ error: "Update unsuccessful - No such record" }).code(422);
+      reply({ error: "Update unsuccessful - No such record" }).code(404);
     }
   } catch (err) {
-    reply({ error: err.errors[0].message }).code(400);
+    reply({ error: err.errors[0].message }).code(500);
   }
 };
 
@@ -96,8 +98,8 @@ exports.deleteMovie = async (request, reply) => {
       },
     });
     if (deletedMovie) reply({ message: "Delete Successful" });
-    else reply({ error: "Delete Unsuccessful - No such record" }).code(400);
+    else reply({ error: "Delete Unsuccessful - No such record" }).code(404);
   } catch (err) {
-    reply({ error: "Delete Unsuccessful - Invalid Entry" }).code(400);
+    reply({ error: "Internal Server Error" }).code(500);
   }
 };

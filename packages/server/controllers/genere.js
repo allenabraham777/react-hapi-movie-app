@@ -9,9 +9,9 @@ exports.addGenere = (request, reply) => {
     .then((genere) =>
       reply({
         genere: genere.genere,
-      })
+      }).code(201)
     )
-    .catch((err) => reply({ error: err }).code(400));
+    .catch((err) => reply({ error: "Internal Server Error" }).code(500));
 };
 
 // Controller - Get All genere
@@ -20,10 +20,10 @@ exports.getAllGenere = (request, reply) => {
     attributes: ["genere"],
   })
     .then((generes) => {
-      reply(generes);
+      reply(generes).code(200);
     })
     .catch((err) => {
-      reply({ error: "Error fetching all generes" });
+      reply({ error: "Error fetching all generes" }).code(500);
     });
 };
 
@@ -38,7 +38,7 @@ exports.updateGenere = async (request, reply) => {
       },
     });
     if (updatedGenere[0]) {
-      reply({ message: "Genere update successful" });
+      reply({ message: "Genere update successful" }).code(202);
     } else {
       reply({ error: "Update unsuccessful - No such record" }).code(422);
     }
@@ -57,9 +57,9 @@ exports.deleteGenere = async (request, reply) => {
         id,
       },
     });
-    if (deletedGenere) reply({ message: "Delete Successful" });
-    else reply({ error: "Delete Unsuccessful - No such record" }).code(400);
+    if (deletedGenere) reply({ message: "Delete Successful" }).code(200);
+    else reply({ error: "Delete Unsuccessful - No such record" }).code(404);
   } catch (err) {
-    reply({ error: "Delete Unsuccessful - Invalid Entry" }).code(400);
+    reply({ error: "Delete Unsuccessful - Invalid Entry" }).code(500);
   }
 };
