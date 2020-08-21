@@ -1,0 +1,22 @@
+.stars {
+  font-size: 25px;
+  font-weight: bolder;
+  color: #777777;
+  cursor: pointer;
+}
+.stars:first-child span {
+  color: transparent !important;
+}
+
+.stars span {
+  transition: all linear 0.2s;
+  padding: 0 10px;
+}
+
+.activeStar {
+  color: goldenrod;
+}
+
+.radio {
+  display: none;
+}

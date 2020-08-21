@@ -12,7 +12,7 @@ const movieRoute = require("./routes/movie");
 const genereRoute = require("./routes/genere");
 
 // Defining Server
-server.connection({ port: process.env.PORT, host: process.env.HOST });
+server.connection({ port: process.env.PORT, host: "0.0.0.0", routes:{cors: true} });
 
 // Regidtering Middlewares
 server.register([Bell,Vision], (err) => {

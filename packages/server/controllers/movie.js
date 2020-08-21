@@ -30,6 +30,7 @@ exports.addMovie = (request, reply) => {
 exports.getAllMovies = (request, reply) => {
   Movie.findAll({
     attributes: ["id", "title", "genere", "rating"],
+    order: [["id", "ASC"]],
   })
     .then((movies) => {
       reply(movies).code(200);
@@ -61,15 +62,28 @@ exports.updateMovie = async (request, reply) => {
 
   const { genere } = request.payload;
 
+  console.log(request.payload);
+  let flag = true;
+
   if (genere) {
-    return Genere.findOne({
+    flag = await Genere.findOne({
       where: { genere },
     })
       .then((response) => {
-        if (!response) return reply({ error: "No Such Genere" }).code(404);
+        if (!response) {
+          reply({ error: "No Such Genere" }).code(404);
+          return false;
+        }
+        return true
       })
-      .catch(() => reply({ error: "Internal Server Error" }).code(500));
+      .catch(() => {
+        reply({ error: "Internal Server Error" }).code(500);
+        return false;
+      });
   }
+
+  if(!flag)
+   return
 
   try {
     const updatedMovie = await Movie.update(request.payload, {
@@ -78,7 +92,7 @@ exports.updateMovie = async (request, reply) => {
       },
     });
     if (updatedMovie[0]) {
-      reply({ message: "Movie update successful" });
+      reply({ message: "Movie update successful" }).code(200);
     } else {
       reply({ error: "Update unsuccessful - No such record" }).code(404);
     }

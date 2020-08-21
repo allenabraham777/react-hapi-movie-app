@@ -11,7 +11,7 @@ exports.addGenere = (request, reply) => {
         genere: genere.genere,
       }).code(201)
     )
-    .catch((err) => reply({ error: "Internal Server Error" }).code(500));
+    .catch((err) => reply({ error: err.errors[0].message }).code(500));
 };
 
 // Controller - Get All genere
