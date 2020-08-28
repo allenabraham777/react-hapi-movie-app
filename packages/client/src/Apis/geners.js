@@ -17,7 +17,6 @@ exports.addGenere = (genere) => {
       return genere.data;
     })
     .catch((error) => {
-      console.log(error.response);
       return Promise.reject(error.response.error);
     });
 };
@@ -29,7 +28,6 @@ exports.editGenere = (genere, id) => {
       return { success: "Genere updated successfully" };
     })
     .catch((error) => {
-      console.log(error);
       return Promise.reject(error.response.error);
     });
 };

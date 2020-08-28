@@ -5,11 +5,9 @@ exports.fetchMovie = () => {
   return simplefetch
     .get(`${API}/movies`)
     .then((movies) => {
-      console.log(movies)
       return movies.data
     })
     .catch((error) => {
-      console.log(error);
       return [];
     });
 };
@@ -18,7 +16,6 @@ exports.fetchMovieById = (id) => {
   return simplefetch
     .get(`${API}/movies/${id}`)
     .then((movie) => {
-      console.log(movie)
       return movie.data
     })
     .catch((error) => {
@@ -26,29 +23,24 @@ exports.fetchMovieById = (id) => {
     });
 };
 
-exports.addMovie = (title, genere, rating) => {
+exports.addMovie = (data) => {
   return simplefetch
-    .post(`${API}/movies`, {title, genere, rating})
-    .then((movies) => {
-      console.log(movies)
-      return {success: true}
+    .post(`${API}/movies`, data)
+    .then((movie) => {
+      return {data: movie, error:false, success: true}
     })
     .catch((error) => {
-      console.log(error);
       throw error.response;
     });
 }
 
 exports.updateMovie = (id, value) => {
-  console.log(value);
   return simplefetch
     .put(`${API}/movies/${id}`, value, {headers: {"Access-Control-Request-Method":"PUT"}})
     .then((movies) => {
-      console.log(movies)
-      return movies.data
+      return movies.data.movie
     })
     .catch((error) => {
-      console.log(error);
-      return [];
+      return Promise.reject("Movie update failed")
     });
 }

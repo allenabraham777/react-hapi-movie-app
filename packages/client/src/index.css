@@ -1,4 +1,5 @@
 .bg-dark,
-.table-dark {
+.table-dark,
+body {
   background: #101010 !important;
 }

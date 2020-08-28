@@ -1,44 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../Layout";
 import StarComponent from "../Components/StarComponent";
-import { getGenere } from "../Apis/geners";
-import { fetchMovieById, updateMovie } from "../Apis/movies";
-import { useParams } from "react-router-dom";
+import { movieEditAction, movieFetchByIdAction } from "../Action/movieAction";
+import { fetchGenereAction } from "../Action/genereActions";
+import { useParams, useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 
-function EditMovie() {
+function EditMovie(props) {
   const [values, setValues] = useState({ title: "", genere: "", rating: 0 });
-  const [generes, setGeneres] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
     const init = async () => {
-      const gnrs = await getGenere();
-      setGeneres(gnrs);
-      await fetchMovieById(id)
-        .then((movie) => {
-          const { title, genere, rating } = movie;
-          console.log(title, genere, rating);
-          setValues({ title, genere, rating });
-          setLoaded(true);
-        })
-        .catch(async () => {
-          setLoaded(true);
-          setError("Error Loading Data..  Redirecting.....");
-          await setTimeout(() => {
-            window.location = "/";
-          }, 1000);
-        });
+      await props.movieFetchByIdAction(id);
+      props.fetchGenereAction();
     };
     init();
   }, [id]);
 
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
-
   const changehandler = (e) => {
-    setSuccess(false);
-    setError(false);
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
@@ -47,25 +28,35 @@ function EditMovie() {
   };
 
   const successMessage = () =>
-    success ? (
+    props.success ? (
       <div className="form-control alert-success">
-        Movie updated successfully
+        Movie updated successfully. Redirecting...
       </div>
     ) : (
       <></>
     );
   const errorMessage = () =>
-    error ? <div className="form-control alert-danger">{error}</div> : <></>;
+    props.error ? (
+      <div className="form-control alert-danger">{`${props.message.error}. Redirecting....`}</div>
+    ) : (
+      <></>
+    );
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setSuccess(false);
-    setError(false);
-    updateMovie(id, { title, genere, rating })
-      .then((success) => setSuccess(true))
-      .catch(({ error }) => setError(error));
+    props.movieEditAction({ id, value: values });
   };
+  if (!loaded && props.movie.title) {
+    setLoaded(true);
+    setValues({
+      title: props.movie.title,
+      genere: props.movie.genere,
+      rating: props.movie.rating,
+    });
+  }
   const { title, genere, rating } = values;
+  const history = useHistory();
+  (props.error || props.success) && setTimeout(() => history.push("/"), 2000);
   return (
     <div>
       <Layout>
@@ -91,17 +82,15 @@ function EditMovie() {
                     className="custom-select form-control"
                     onChange={changehandler}
                     name="genere"
+                    value={genere}
                     required
                   >
-                    {generes.map((gen) => (
-                      <option
-                        value={gen.genere}
-                        key={gen.genere}
-                        selected={genere === gen.genere ? true : false}
-                      >
-                        {gen.genere}
-                      </option>
-                    ))}
+                    {props.generes &&
+                      props.generes.map((gen) => (
+                        <option value={gen.genere} key={gen.genere}>
+                          {gen.genere}
+                        </option>
+                      ))}
                   </select>
                 )}
                 <div>
@@ -128,4 +117,16 @@ function EditMovie() {
   );
 }
 
-export default EditMovie;
+const mapStateToProps = (state) => ({
+  movie: state.movie.movie,
+  success: state.movie.success,
+  error: state.movie.error,
+  message: state.movie.message,
+  generes: state.genere.generes,
+});
+
+export default connect(mapStateToProps, {
+  movieEditAction,
+  movieFetchByIdAction,
+  fetchGenereAction,
+})(EditMovie);

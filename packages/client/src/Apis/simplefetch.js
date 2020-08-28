@@ -14,13 +14,11 @@ const requestMaker = async ({ method, url, data, config }) => {
         "Content-Type": "application/json",
       };
   data = data ? JSON.stringify(data) : data;
-  console.log(method, data);
   const response = await window.fetch(config.baseURL + url, {
     method,
     headers,
     body: data,
   });
-  console.log(response);
   return responseHandler(response);
 };
 
@@ -76,7 +74,6 @@ const simplefetch = {
 
   //Handle PUT request
   put(url, data = {}, config) {
-    console.log(data);
     return Promise.resolve(
       requestMaker({
         method: "PUT",

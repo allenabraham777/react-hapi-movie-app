@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { movieAddAction } from "../Action/movieAction";
+import { fetchGenereAction } from "../Action/genereActions";
+
 import Layout from "../Layout";
 import StarComponent from "../Components/StarComponent";
-import { getGenere } from "../Apis/geners";
-import { addMovie } from "../Apis/movies";
 
-function AddMovie() {
-  const [values, setValues] = useState({ title: "", genere: "", rating: 0 });
+function AddMovie(props) {
+  const [values, setValues] = useState({
+    title: "",
+    genere: "Drama",
+    rating: 0,
+  });
 
-  const [generes, setGeneres] = useState([]);
   useEffect(() => {
-    const init = async () => {
-      const gnrs = await getGenere();
-      setGeneres(gnrs);
-    };
-    init();
+    props.fetchGenereAction()
   }, []);
 
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
-
   const changehandler = (e) => {
-    setSuccess(false);
-    setError(false);
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
@@ -30,22 +26,21 @@ function AddMovie() {
   };
 
   const successMessage = () =>
-    success ? (
+    props.success ? (
       <div className="form-control alert-success">Movie added successfully</div>
     ) : (
       <></>
     );
   const errorMessage = () =>
-    error ? <div className="form-control alert-danger">{error}</div> : <></>;
+    props.error ? (
+      <div className="form-control alert-danger">{props.message}</div>
+    ) : (
+      <></>
+    );
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setSuccess(false);
-    setError(false);
-    addMovie(title, genere, rating)
-      .then((success) => setSuccess(true))
-      .catch(({ error }) => setError(error));
-    setValues({ name: "", genere: "", rating: "" });
+    props.movieAddAction({ title, genere, rating });
   };
   const { title, genere, rating } = values;
   return (
@@ -74,7 +69,7 @@ function AddMovie() {
                   name="genere"
                   required
                 >
-                  {generes.map(({ genere }) => (
+                  {props.generes && props.generes.map(({ genere }) => (
                     <option value={genere} key={genere}>
                       {genere}
                     </option>
@@ -102,4 +97,10 @@ function AddMovie() {
   );
 }
 
-export default AddMovie;
+const mapStateToProps = (state) => ({
+  success: state.movie.success,
+  error: state.movie.error,
+  generes: state.genere.generes,
+});
+
+export default connect(mapStateToProps, { movieAddAction, fetchGenereAction })(AddMovie);
