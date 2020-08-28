@@ -2,7 +2,6 @@ const Genere = require("../models/Genere");
 
 // Controller - Add genere
 exports.addGenere = (request, reply) => {
-  console.log(request.payload);
   const { genere } = request.payload;
 
   Genere.create({ genere })

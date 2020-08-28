@@ -3,7 +3,6 @@ const Genere = require("../models/Genere");
 
 // Controller - Add Movie
 exports.addMovie = (request, reply) => {
-  console.log(request.payload);
   const { title, genere, rating } = request.payload;
 
   Genere.findOne({
@@ -62,7 +61,6 @@ exports.updateMovie = async (request, reply) => {
 
   const { genere } = request.payload;
 
-  console.log(request.payload);
   let flag = true;
 
   if (genere) {
@@ -74,7 +72,7 @@ exports.updateMovie = async (request, reply) => {
           reply({ error: "No Such Genere" }).code(404);
           return false;
         }
-        return true
+        return true;
       })
       .catch(() => {
         reply({ error: "Internal Server Error" }).code(500);
@@ -82,20 +80,32 @@ exports.updateMovie = async (request, reply) => {
       });
   }
 
-  if(!flag)
-   return
+  if (!flag) return;
 
   try {
-    const updatedMovie = await Movie.update(request.payload, {
+    await Movie.update(request.payload, {
       where: {
         id,
       },
-    });
-    if (updatedMovie[0]) {
-      reply({ message: "Movie update successful" }).code(200);
-    } else {
-      reply({ error: "Update unsuccessful - No such record" }).code(404);
-    }
+      returning: true,
+      plain: true,
+      attributes: ["id", "title", "genere", "rating"],
+    })
+      .then((response) => {
+        const movie = {
+          title: response[1].title,
+          genere: response[1].genere,
+          rating: response[1].rating,
+          id: response[1].id,
+        };
+        return reply({
+          message: "Movie update successful",
+          movie,
+        }).code(200);
+      })
+      .catch(() =>
+        reply({ error: "Update unsuccessful - No such record" }).code(404)
+      );
   } catch (err) {
     reply({ error: err.errors[0].message }).code(500);
   }
