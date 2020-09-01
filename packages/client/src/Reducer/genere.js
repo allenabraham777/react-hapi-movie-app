@@ -4,7 +4,7 @@ import {
   SET_ERROR,
   SET_SUCCESS,
   RESET,
-} from "../Action/type";
+} from "../action/type";
 const initState = {
   generes: [],
   error: false,

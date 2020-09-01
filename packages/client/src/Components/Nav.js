@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Nav(props) {
+function Nav() {
   return (
     <div>
-      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-info">
+      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
         <div className="container">
           <Link className="navbar-brand" to="/">
             Movie App

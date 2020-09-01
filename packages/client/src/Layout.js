@@ -1,5 +1,5 @@
 import React from 'react';
-import Nav from './Components/Nav';
+import Nav from './components/Nav';
 
 function Layout({children}) {
   return (

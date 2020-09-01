@@ -1,4 +1,4 @@
-import { addGenere, getGenere } from "../Apis/geners";
+import { addGenere, getGenere } from "../apis/geners";
 import {
   ADD_GENERE,
   FETCH_GENERE,

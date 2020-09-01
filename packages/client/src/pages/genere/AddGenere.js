@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Layout from "../Layout";
-// import { addGenere } from "../Apis/geners";
+import Layout from "../../Layout";
 import { connect } from "react-redux";
-import { addGenereAction } from "../Action/genereActions";
+import { addGenereAction } from "../../action/genere";
 
 function AddGenere(props) {
   const [genere, setGenere] = useState("");
@@ -13,16 +12,24 @@ function AddGenere(props) {
 
   const successMessage = () =>
     props.success ? (
-      <div className="form-control alert-success">Genere added successfully</div>
+      <div className="form-control alert-success">
+        Genere added successfully
+      </div>
     ) : (
       <></>
     );
   const errorMessage = () =>
-    props.error ? <div className="form-control alert-danger">{JSON.stringify(props.message)}</div> : <></>;
+    props.error ? (
+      <div className="form-control alert-danger">
+        {JSON.stringify(props.message)}
+      </div>
+    ) : (
+      <></>
+    );
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    props.addGenereAction(genere)
+    props.addGenereAction(genere);
   };
   return (
     <div>
@@ -55,10 +62,10 @@ function AddGenere(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   success: state.genere.success,
   error: state.genere.error,
-  message: state.genere.message
-})
+  message: state.genere.message,
+});
 
-export default connect(mapStateToProps, {addGenereAction})(AddGenere);
+export default connect(mapStateToProps, { addGenereAction })(AddGenere);

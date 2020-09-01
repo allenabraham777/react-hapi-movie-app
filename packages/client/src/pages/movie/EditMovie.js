@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../Layout";
-import StarComponent from "../Components/StarComponent";
-import { movieEditAction, movieFetchByIdAction } from "../Action/movieAction";
-import { fetchGenereAction } from "../Action/genereActions";
+import Layout from "../../Layout";
+import StarComponent from "../../components/StarComponent";
+import { movieEditAction, movieFetchByIdAction } from "../../action/movie";
+import { fetchGenereAction } from "../../action/genere";
 import { useParams, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 

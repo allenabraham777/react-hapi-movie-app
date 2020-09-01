@@ -1,14 +1,14 @@
-import React from "react";
-import {FaStar} from 'react-icons/fa'
-import './StarComponent.css'
+import React, { useState } from "react";
+import { FaStar } from "react-icons/fa";
+import "./StarComponent.css";
 
 function StarComponent(props) {
-  const [star, setStar] = React.useState(+props.star);
-  const [hover, setHover] = React.useState(-1);
+  const [star, setStar] = useState(+props.star);
+  const [hover, setHover] = useState(-1);
   const updateStar = (index) => {
-    setStar(index)
-    props.updateRating(props.index, index)
-  }
+    setStar(index);
+    props.updateRating(props.index, index);
+  };
   return (
     <>
       {[0, 1, 2, 3, 4, 5].map((s, index) => {

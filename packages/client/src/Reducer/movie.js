@@ -6,7 +6,8 @@ import {
   SET_ERROR,
   SET_SUCCESS,
   RESET,
-} from "../Action/type";
+  DELETE_MOVIE,
+} from "../action/type";
 
 const initState = {
   movies: [],
@@ -30,6 +31,13 @@ const movieReducer = (state = initState, action) => {
         ...state,
         movies: state.movies.map((movie) =>
           movie.id === action.payload.id ? action.payload : movie
+        ),
+      };
+    case DELETE_MOVIE:
+      return {
+        ...state,
+        movies: state.movies.filter((movie) =>
+          movie.id !== action.payload
         ),
       };
     case SET_SUCCESS:

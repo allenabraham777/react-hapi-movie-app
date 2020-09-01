@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import Layout from "./Layout";
-import ListTable from "./Components/ListTable";
+import Layout from "../Layout";
+import ListTable from "../components/ListTable";
 import { connect } from "react-redux";
-import { movieFetchAction } from "./Action/movieAction";
-import { fetchGenereAction } from "./Action/genereActions";
+import { movieFetchAction } from "../action/movie";
+import { fetchGenereAction } from "../action/genere";
 
 function Home(props) {
   useEffect(() => {

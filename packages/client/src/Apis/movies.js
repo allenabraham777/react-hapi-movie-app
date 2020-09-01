@@ -44,3 +44,14 @@ exports.updateMovie = (id, value) => {
       return Promise.reject("Movie update failed")
     });
 }
+
+exports.deletemovie = (id) => {
+  return simplefetch
+    .delete(`${API}/movies/${id}`)
+    .then((movie) => {
+      return movie
+    })
+    .catch((error) => {
+      return Promise.reject("Movie delete failed")
+    });
+}

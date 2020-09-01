@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { movieAddAction } from "../Action/movieAction";
-import { fetchGenereAction } from "../Action/genereActions";
+import { movieAddAction, resetAllAction } from "../../action/movie";
+import { fetchGenereAction } from "../../action/genere";
 
-import Layout from "../Layout";
-import StarComponent from "../Components/StarComponent";
+import Layout from "../../Layout";
+import StarComponent from "../../components/StarComponent";
 
 function AddMovie(props) {
   const [values, setValues] = useState({
@@ -14,7 +14,8 @@ function AddMovie(props) {
   });
 
   useEffect(() => {
-    props.fetchGenereAction()
+    props.resetAllAction();
+    props.fetchGenereAction();
   }, []);
 
   const changehandler = (e) => {
@@ -69,11 +70,12 @@ function AddMovie(props) {
                   name="genere"
                   required
                 >
-                  {props.generes && props.generes.map(({ genere }) => (
-                    <option value={genere} key={genere}>
-                      {genere}
-                    </option>
-                  ))}
+                  {props.generes &&
+                    props.generes.map(({ genere }) => (
+                      <option value={genere} key={genere}>
+                        {genere}
+                      </option>
+                    ))}
                 </select>
                 <div>
                   <label className="text-white mt-3">Rating</label>
@@ -103,4 +105,8 @@ const mapStateToProps = (state) => ({
   generes: state.genere.generes,
 });
 
-export default connect(mapStateToProps, { movieAddAction, fetchGenereAction })(AddMovie);
+export default connect(mapStateToProps, {
+  movieAddAction,
+  resetAllAction,
+  fetchGenereAction,
+})(AddMovie);

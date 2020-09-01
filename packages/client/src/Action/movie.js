@@ -3,7 +3,8 @@ import {
   updateMovie,
   fetchMovie,
   fetchMovieById,
-} from "../Apis/movies";
+  deletemovie
+} from "../apis/movies";
 import {
   ADD_MOVIE,
   RESET,
@@ -12,6 +13,7 @@ import {
   FETCH_MOVIE,
   SET_ERROR,
   SET_SUCCESS,
+  DELETE_MOVIE
 } from "./type";
 import store from "../store";
 
@@ -43,7 +45,9 @@ export const movieFetchByIdAction = (id) => async (dispatch) => {
         })
       );
   } else {
-    const movie = await movies.find((movie) => movie.id.toString() === id.toString());
+    const movie = await movies.find(
+      (movie) => movie.id.toString() === id.toString()
+    );
     movie
       ? dispatch({
           type: FETCH_ONE_MOVIE,
@@ -90,10 +94,28 @@ export const movieEditAction = (data) => (dispatch) => {
         payload: true,
       });
     })
-    .catch((error) =>{
+    .catch((error) => {
       dispatch({
         type: SET_ERROR,
-        payload: { error: true, message: {error} },
-      })}
-    );
+        payload: { error: true, message: { error } },
+      });
+    });
 };
+
+export const movieDeleteAction = (data) => (dispatch) => {
+  dispatch({ type: RESET });
+  deletemovie(data)
+    .then((movie) => {
+      dispatch({
+        type: DELETE_MOVIE,
+        payload: data,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const resetAllAction = () => (dispatch) => {
+  dispatch({ type: RESET });
+}
