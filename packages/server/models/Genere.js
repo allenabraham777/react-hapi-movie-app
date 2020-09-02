@@ -5,7 +5,10 @@ const Genere = db.define("Genere", {
   genere: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true
   },
 });
+
+Genere.sync()
 
 module.exports = Genere;

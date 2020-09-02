@@ -11,7 +11,8 @@ const Movie = db.define(
     },
     genere: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     rating: {
       type: DataTypes.DOUBLE,
@@ -20,5 +21,7 @@ const Movie = db.define(
     },
   }
 );
+
+Movie.sync()
 
 module.exports = Movie
