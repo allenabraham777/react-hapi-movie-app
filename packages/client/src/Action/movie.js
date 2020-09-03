@@ -13,12 +13,14 @@ import {
   FETCH_MOVIE,
   SET_ERROR,
   SET_SUCCESS,
-  DELETE_MOVIE
+  DELETE_MOVIE,
+  RESET_MOVIE
 } from "./type";
 import store from "../store";
 
 export const movieFetchAction = () => (dispatch) => {
   dispatch({ type: RESET });
+  dispatch({type: RESET_MOVIE})
   fetchMovie().then((movies) => {
     dispatch({
       type: FETCH_MOVIE,
@@ -29,6 +31,7 @@ export const movieFetchAction = () => (dispatch) => {
 
 export const movieFetchByIdAction = (id) => async (dispatch) => {
   dispatch({ type: RESET });
+  dispatch({type: RESET_MOVIE})
   const movies = store.getState().movie.movies;
   if (movies.length === 0) {
     fetchMovieById(id)

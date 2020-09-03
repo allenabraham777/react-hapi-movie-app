@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import Layout from "../Layout";
-import ListTable from "../components/ListTable";
+import Layout from "../../Layout";
+import ListTable from "../../components/ListTable";
 import { connect } from "react-redux";
-import { movieFetchAction } from "../action/movie";
-import { fetchGenereAction } from "../action/genere";
+import { movieFetchAction } from "../../action/movie";
+import { fetchGenereAction } from "../../action/genere";
 
-function Home(props) {
+function Movies(props) {
   useEffect(() => {
     props.movieFetchAction();
     props.fetchGenereAction();
@@ -20,4 +20,4 @@ function Home(props) {
   );
 }
 
-export default connect(null, { movieFetchAction, fetchGenereAction })(Home);
+export default connect(null, { movieFetchAction, fetchGenereAction })(Movies);

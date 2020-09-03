@@ -4,6 +4,8 @@ export const FETCH_MOVIE = "FETCH_MOVIE";
 export const FETCH_ONE_MOVIE = "FETCH_ONE_MOVIE";
 export const DELETE_MOVIE = "DELETE_MOVIE"
 
+export const RESET_MOVIE = "RESET_MOVIE"
+
 export const SET_ERROR = "SET_ERROR";
 export const SET_SUCCESS = "SET_SUCCESS";
 export const SET_MESSAGE = "SET_MESSAGE";

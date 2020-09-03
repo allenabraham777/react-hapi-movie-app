@@ -1,7 +1,8 @@
-const simplefetch = require("./simplefetch");
+const {simplefetch} = require("./simplefetch");
 const {API} = require("./backend");
 
-exports.fetchMovie = () => {
+export const fetchMovie = () => {
+  console.log(simplefetch);
   return simplefetch
     .get(`${API}/movies`)
     .then((movies) => {
@@ -12,7 +13,7 @@ exports.fetchMovie = () => {
     });
 };
 
-exports.fetchMovieById = (id) => {
+export const fetchMovieById = (id) => {
   return simplefetch
     .get(`${API}/movies/${id}`)
     .then((movie) => {
@@ -23,7 +24,7 @@ exports.fetchMovieById = (id) => {
     });
 };
 
-exports.addMovie = (data) => {
+export const addMovie = (data) => {
   return simplefetch
     .post(`${API}/movies`, data)
     .then((movie) => {
@@ -34,7 +35,7 @@ exports.addMovie = (data) => {
     });
 }
 
-exports.updateMovie = (id, value) => {
+export const updateMovie = (id, value) => {
   return simplefetch
     .put(`${API}/movies/${id}`, value, {headers: {"Access-Control-Request-Method":"PUT"}})
     .then((movies) => {
@@ -45,7 +46,7 @@ exports.updateMovie = (id, value) => {
     });
 }
 
-exports.deletemovie = (id) => {
+export const deletemovie = (id) => {
   return simplefetch
     .delete(`${API}/movies/${id}`)
     .then((movie) => {

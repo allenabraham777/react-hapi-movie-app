@@ -1,7 +1,7 @@
 const { API } = require("./backend");
-const simplefetch = require("./simplefetch");
+const {simplefetch} = require("./simplefetch");
 
-exports.getGenere = () => {
+export const getGenere = () => {
   return simplefetch
     .get(`${API}/generes`)
     .then((generes) => {
@@ -10,7 +10,7 @@ exports.getGenere = () => {
     .catch(() => []);
 };
 
-exports.addGenere = (genere) => {
+export const addGenere = (genere) => {
   return simplefetch
     .post(`${API}/generes`, { genere })
     .then((genere) => {
@@ -21,7 +21,7 @@ exports.addGenere = (genere) => {
     });
 };
 
-exports.editGenere = (genere, id) => {
+export const editGenere = (genere, id) => {
   return simplefetch
     .put(`${API}/generes/${id}`, { genere })
     .then((genere) => {

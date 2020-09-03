@@ -22,7 +22,7 @@ const requestMaker = async ({ method, url, data, config }) => {
   return responseHandler(response);
 };
 
-const simplefetch = {
+export const simplefetch = {
   config: {
     headers: {
       "Content-Type": "application/json",
@@ -95,5 +95,3 @@ const simplefetch = {
     );
   },
 };
-
-module.exports = simplefetch;

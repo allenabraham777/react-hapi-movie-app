@@ -7,6 +7,7 @@ import {
   SET_SUCCESS,
   RESET,
   DELETE_MOVIE,
+  RESET_MOVIE,
 } from "../action/type";
 
 const initState = {
@@ -29,6 +30,7 @@ const movieReducer = (state = initState, action) => {
     case EDIT_MOVIE:
       return {
         ...state,
+        success: true,
         movies: state.movies.map((movie) =>
           movie.id === action.payload.id ? action.payload : movie
         ),
@@ -36,9 +38,12 @@ const movieReducer = (state = initState, action) => {
     case DELETE_MOVIE:
       return {
         ...state,
-        movies: state.movies.filter((movie) =>
-          movie.id !== action.payload
-        ),
+        movies: state.movies.filter((movie) => movie.id !== action.payload),
+      };
+    case RESET_MOVIE:
+      return {
+        ...state,
+        movie: {},
       };
     case SET_SUCCESS:
       return {

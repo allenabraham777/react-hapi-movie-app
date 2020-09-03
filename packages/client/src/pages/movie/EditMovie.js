@@ -30,7 +30,7 @@ function EditMovie(props) {
   const successMessage = () =>
     props.success ? (
       <div className="form-control alert-success">
-        Movie updated successfully. Redirecting...
+        Movie updated successfully
       </div>
     ) : (
       <></>
@@ -56,7 +56,7 @@ function EditMovie(props) {
   }
   const { title, genere, rating } = values;
   const history = useHistory();
-  (props.error || props.success) && setTimeout(() => history.push("/"), 2000);
+  (props.error) && setTimeout(() => history.push("/"), 2000);
   return (
     <div>
       <Layout>
