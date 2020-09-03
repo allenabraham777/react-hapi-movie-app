@@ -9,6 +9,6 @@ const Genere = db.define("Genere", {
   },
 });
 
-Genere.sync()
+// Genere.sync()
 
 module.exports = Genere;

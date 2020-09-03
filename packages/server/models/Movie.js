@@ -22,6 +22,6 @@ const Movie = db.define(
   }
 );
 
-Movie.sync()
+// Movie.sync()
 
 module.exports = Movie

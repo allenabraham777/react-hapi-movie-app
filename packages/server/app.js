@@ -2,6 +2,7 @@ const Hapi = require("hapi");
 const Vision = require("vision");
 const Ejs = require("ejs");
 const Bell = require("bell");
+const CookieAuth = require("hapi-auth-cookie");
 require("dotenv").config();
 
 const server = new Hapi.Server();
@@ -10,12 +11,16 @@ const db = require("./config/database");
 const userRoute = require("./routes/user");
 const movieRoute = require("./routes/movie");
 const genereRoute = require("./routes/genere");
-
+const clientRoute = require("./routes/client");
 // Defining Server
-server.connection({ port: process.env.PORT, host: "0.0.0.0", routes:{cors: true} });
+server.connection({
+  port: process.env.PORT,
+  host: "0.0.0.0",
+  routes: { cors: true },
+});
 
 // Regidtering Middlewares
-server.register([Bell,Vision], (err) => {
+server.register([Bell, Vision, CookieAuth], (err) => {
   if (err) {
     throw err;
   }
@@ -31,8 +36,32 @@ server.register([Bell,Vision], (err) => {
     password: process.env.GITHUB_CLIENT_SECRET,
     clientId: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    location: "http://localhost:3001",
+    scope: [],
     isSecure: false, // For development only
   });
+
+  server.auth.strategy("session", "cookie", {
+    password: process.env.GITHUB_CLIENT_SECRET,
+    cookie: "sid",
+    redirectTo: "http://localhost:3001/",
+    isSecure: false,
+    validateFunc: function (request, session, callback) {
+      // cache.get(session.sid, (err, cached) => {
+      //   if (err) {
+      //     return callback(err, false);
+      //   }
+
+      //   if (!cached) {
+      //     return callback(null, false);
+      //   }
+
+      return callback(null, true);
+      // });
+    },
+  });
+
+  server.auth.default("session");
 });
 
 // Starting server
@@ -53,13 +82,7 @@ const startServer = async () => {
     server.register(userRoute, { routes: { prefix: "/api" } });
     server.register(movieRoute, { routes: { prefix: "/api" } });
     server.register(genereRoute, { routes: { prefix: "/api" } });
-    server.route({
-      method: "GET",
-      path: "/",
-      handler: (request, reply) => {
-        reply.view("index")
-      }
-    })
+    server.register(clientRoute);
   });
 };
 
