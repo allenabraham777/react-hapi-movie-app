@@ -1,4 +1,4 @@
-## Initaial setup
+## Initial setup
 
 Add the .env file
 
