@@ -56,7 +56,7 @@ function EditMovie(props) {
   }
   const { title, genere, rating } = values;
   const history = useHistory();
-  (props.error) && setTimeout(() => history.push("/"), 2000);
+  (props.error) && setTimeout(() => history.push("/movies"), 2000);
   return (
     <div>
       <Layout>
