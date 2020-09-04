@@ -99,11 +99,7 @@ const ListTable = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  movies: select({
-    movies: state.movie.movies,
-    filters: state.filter.filters,
-    sort: state.sort.sort,
-  }),
+  movies: select(state),
   generes: state.genere.generes,
   filters: state.filter.filters,
   sort: state.sort.sort,

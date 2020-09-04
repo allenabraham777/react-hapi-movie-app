@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 export const select = createSelector(
-  [(state) => state.movies, (state) => state.filters, (state) => state.sort],
+  [(state) => state.movie.movies, (state) => state.filter.filters, (state) => state.sort.sort],
   (movies, filters, order) => {
     console.log("MOVIES", movies);
     console.log("FILTER", filters);

@@ -16,43 +16,37 @@ exports.register = (server, options, next) => {
       },
       handler: (request, reply) => {
         if (request.auth.isAuthenticated) return reply.redirect("/movies");
-        // console.log(request.cookieAuth.sid);
-        // if (request.cook)
-        if (!request.auth.isAuthenticated) return reply.view("index");
+
+        return reply.view("index", { title: "Please Login" });
       },
     },
     {
       method: "GET",
       path: "/movies",
-      // config: {
-      //   auth: {
-      //     strategy: "session",
-      //     mode: "try",
-      //   },
-      // },
       handler: (request, reply) => {
-        reply.view("index");
+        reply.view("index", { title: "Movies" });
       },
     },
     {
       method: "GET",
       path: "/movies/add",
       handler: (request, reply) => {
-        reply.view("index");
+        reply.view("index", { title: "Add Movie" });
       },
     },
     {
       method: "GET",
       path: "/movies/edit/{id}",
+      config:{auth: false},
       handler: (request, reply) => {
-        reply.view("index");
+        reply.view("index", { title: "Edit Movie" });
       },
     },
     {
       method: "GET",
-      path: "/movies/generes/add",
+      path: "/generes/add",
       handler: (request, reply) => {
-        reply.view("index");
+        reply.view("index", { title: "Add Genere" });
       },
     },
   ]);

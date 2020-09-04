@@ -44,20 +44,13 @@ server.register([Bell, Vision, CookieAuth], (err) => {
   server.auth.strategy("session", "cookie", {
     password: process.env.GITHUB_CLIENT_SECRET,
     cookie: "sid",
-    redirectTo: "http://localhost:3001/",
+    redirectTo: "/",
+    isSameSite: false,
     isSecure: false,
     validateFunc: function (request, session, callback) {
-      // cache.get(session.sid, (err, cached) => {
-      //   if (err) {
-      //     return callback(err, false);
-      //   }
-
-      //   if (!cached) {
-      //     return callback(null, false);
-      //   }
-
-      return callback(null, true);
-      // });
+      if (session.token) {
+        return callback(null, true);
+      } else return callback(null, false);
     },
   });
 
