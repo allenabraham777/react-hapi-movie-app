@@ -9,3 +9,5 @@ yarn install
 ```
 yarn start
 ```
+
+The build files are imported in hapi template
