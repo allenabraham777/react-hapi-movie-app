@@ -54,7 +54,7 @@ server.register([Bell, Vision, CookieAuth], (err) => {
     },
   });
 
-  server.auth.default("session");
+  // server.auth.default("session");
 });
 
 // Starting server

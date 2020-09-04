@@ -25,23 +25,23 @@ exports.register = (server, options, next) => {
       },
       handler: addGenere,
     },
-    {
-      method: "PUT",
-      path: "/generes/{genere}",
-      config: {
-        validate: {
-          payload: {
-            genere: Joi.string().required(),
-          },
-        },
-      },
-      handler: updateGenere,
-    },
-    {
-      method: "DELETE",
-      path: "/generes/{genere}",
-      handler: deleteGenere,
-    },
+    // {
+    //   method: "PUT",
+    //   path: "/generes/{genere}",
+    //   config: {
+    //     validate: {
+    //       payload: {
+    //         genere: Joi.string().required(),
+    //       },
+    //     },
+    //   },
+    //   handler: updateGenere,
+    // },
+    // {
+    //   method: "DELETE",
+    //   path: "/generes/{genere}",
+    //   handler: deleteGenere,
+    // },
   ]);
 };
 
